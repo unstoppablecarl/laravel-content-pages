@@ -68,13 +68,10 @@ return [
         /* example */
 
 //        'basic' => [
-//            'page_router' => \App\PageRouters\Basic::class,
-//            'admin_controller' => \App\Http\Controllers\Admin\PageType\Basic::class,
+//            'page_router' => \App\PageRouteBinders\Basic::class,
 //        ],
-//
 //        'articles' => [
-//            'page_router'      => \App\PageRouters\Articles::class,
-//            'admin_controller' => \App\Http\Controllers\Admin\PageType\Articles::class,
+//            'page_router'      => \App\PageRouteBinders\Articles::class,
 //        ]
 
     ],
