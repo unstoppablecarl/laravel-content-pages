@@ -12,14 +12,11 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "laravel/framework": "5.2.*",
-    "illuminate/support": "5.0.x|5.1.x|5.2.x",
-    "illuminate/console": "5.0.x|5.1.x|5.2.x"
+    "laravel/framework": "5.2.*"
   },
   "autoload": {
     "psr-4": {
       "UnstoppableCarl\\Pages\\": "src"
     }
-  },
-  "minimum-stability": "beta"
+  }
 }

@@ -11,23 +11,25 @@ Add the package via composer:
 TBD
 ```
 
-Then add the following line to the `providers` key within your `config/app.php` file:
+Add the following line to the `providers` key within your `config/app.php` file:
 
 ```php
 UnstoppableCarl\Pages\PagesServiceProvider::class
 ```
 
-Then publish config
+Publish config
 
 ```php
 php artisan vendor:publish
 ```
 
-Then enable in  `config/pages.php`
+Enable in  `config/pages.php`
+
+Enabling the package will bind additional routes. If this package is not configured correctly the router may not work. This config setting determines if page routes are bound or not.
 
 ```php
     // set to true
-    'enabled' => env('RP_ENABLED', true),
+    'enabled' => env('PAGES_ENABLED', true),
 ```
 
 ## The Idea
@@ -48,7 +50,7 @@ Then enable in  `config/pages.php`
 
 A **Page** with path `industry/articles` is mapped to an **Articles Page Router**.
 
-The **Articles Page Router** maps 2 sub routes:
+The **Articles Page Router** maps 2 "sub" routes:
  - `/` to `Articles@all`
  -  `/{article_id}` to `Articles@single`
 
@@ -57,12 +59,63 @@ The path of the **Page** is used as a prefix to these routes resulting in mappin
  - `/industry/articles/` to `Articles@all`
  - `/industry/articles/{article_id}` to `Articles@single`
 
-
 ## Usage
 
+### Create and bind PageRepository Implementation
 
-### Making a Page Controller
+`app/Repositories/PageRepository.php`
+
 ```php
+<?php
+
+namespace App\Repositories;
+
+use UnstoppableCarl\Pages\Contracts\PageRepository as PageRepoContract;
+
+class PageRepository implements PageRepoContract {
+
+    protected $exampleData = [
+        '1' => [
+            // required by contract
+            'id'        => 1,
+            'path'      => 'industry/news',
+            'page_type' => 'articles',
+
+            // not required by contract
+            'content' => 'this is some content',
+        ],
+    ];
+
+    public function findById($id) {
+        return $this->exampleData[$id];
+    }
+
+    public function getRouteData() {
+        return $this->exampleData;
+    }
+}
+
+```
+
+Bind it in the `app/Providers/AppServiceProvider` `register` function:
+
+```php
+// ...
+public function register() {
+
+    // add this line
+    $this->app->bind(\UnstoppableCarl\Pages\Contracts\PageRepository::class, \App\Repositories\PageRepository::class);
+
+}
+```
+
+### Make a Page Controller
+
+`app\Http\Controllers\Articles.php`
+
+```php
+<?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -75,7 +128,7 @@ class Articles extends Controller {
         $page = $request->get('page_model');
         $out = 'Articles List';
         $out .= '<br>';
-        $out .= $page->content;
+        $out .= $page['content'];
 
         return $out;
     }
@@ -88,7 +141,7 @@ class Articles extends Controller {
 
         $out = 'Single Article';
         $out .= '<br>';
-        $out .= $page->content;
+        $out .= $page['content'];
         $out .= '<br>';
         $out .= $article;
 
@@ -97,9 +150,13 @@ class Articles extends Controller {
 }
 ```
 
-### Making a PageRouteBinder
+### Make a PageRouteBinder
+
+`app\PageRouters\Articles.php`
 
 ```php
+<?php
+
 namespace App\PageRouters;
 
 use Illuminate\Routing\Router;
@@ -108,24 +165,26 @@ use UnstoppableCarl\Pages\PageRouteBinder;
 class Articles extends PageRouteBinder {
 
     protected function bindPageRoutes(Router $router) {
-        $router->any('/', 'Articles@all');
-        $router->any('/{article}', 'Articles@single');
+        $router->get('/', 'Articles@all');
+        $router->get('/{article}', 'Articles@single');
     }
 
 }
 ```
 
-### Mapping a Page to a Page Router
+
+### Configure page types in `config/pages.php`
+
+Add the following to the `page_types` key:
 
 ```php
-use UnstoppableCarl\Pages\Models\Page;
-
-$page = new Page();
-$page->fill([
-    'path' => 'news/articles',
-    'page_router_class' => App\PageRouters\Articles::class
-]);
+'page_types' => [
+    'articles' => [
+        'page_router' => \App\PageRouters\Articles::class,
+    ]
+],
 ```
+
 
 ### Result
 
@@ -140,6 +199,3 @@ If path of page is changed to `industry/news/articles`, routes would change to:
 /industry/news/articles = 'Articles@all'
 /industry/news/articles/article-slug = 'Articles@single'
 ```
-
-
-See example code in `/examples`
