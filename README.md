@@ -3,6 +3,8 @@
 
 This is an experemental package. I am still not sure if this idea is brilliant or insane.
 
+See example: https://github.com/unstoppablecarl/laravel-content-pages-example
+
 ## Installation
 
 Add the package via composer:
