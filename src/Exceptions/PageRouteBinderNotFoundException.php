@@ -10,24 +10,10 @@ class PageRouteBinderNotFoundException extends Exception {
 
     public function __construct($PageRouteBinderClass, $pageType = null, $pageId = null, $pagePath = null) {
 
-        $msg = 'Page Route Binder Class: "' . $PageRouteBinderClass . '"';
-
-
-        if($pageId || $pagePath || $pageType) {
-            $msg .= 'of page where: ';
-            if($pageType) {
-                $msg .= ', page_type = "' . $pageType . '"';
-            }
-            if($pageId) {
-                $msg .= 'id = "' . $pageId . '"';
-            }
-            if($pagePath) {
-                $msg .= ', path = "' . $pagePath . '"';
-            }
-        }
-
-        $msg .= ' Not Found';
-
+        $msg = 'Page Route Binder Class: "%s" Not Found.
+When trying to bind page with: page_type = "%s", id = "%s", path = "%s"';
+        $msg = sprintf($msg, $PageRouteBinderClass, $pageType, $pageId, $pagePath);
+        
         parent::__construct($msg);
     }
 }

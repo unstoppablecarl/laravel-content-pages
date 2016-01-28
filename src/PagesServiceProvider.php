@@ -93,7 +93,7 @@ class PagesServiceProvider extends ServiceProvider {
     protected function getPageRouteBinder($PageRouteBinderClass, $pageType, $pageId, $path) {
         $ignoreClassErrors = $this->packageConfig('ignore_page_router_class_errors');
 
-        if(!class_exists($PageRouteBinderClass) && !isset($this->app[$PageRouteBinderClass])) {
+        if(!class_exists($PageRouteBinderClass) && !$this->app->bound($PageRouteBinderClass)) {
             if($ignoreClassErrors) {
                 return false;
             }
