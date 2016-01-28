@@ -10,17 +10,19 @@ See example: https://github.com/unstoppablecarl/laravel-content-pages-example
 Add the package via composer:
 
 Add to `composer.json`
-```
-"require": {
-    "unstoppablecarl/laravel-content-pages": "dev-master"
-},
-"repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/unstoppablecarl/laravel-content-pages"
-    }
-  ],
-  "minimum-stability": "dev"
+```json
+{
+    "require": {
+        "unstoppablecarl/laravel-content-pages": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/unstoppablecarl/laravel-content-pages"
+        }
+    ],
+    "minimum-stability": "dev"
+}
 ```
 
 Add the following line to the `providers` key within your `config/app.php` file:
@@ -31,7 +33,7 @@ UnstoppableCarl\Pages\PagesServiceProvider::class
 
 Publish config
 
-```php
+```shell
 php artisan vendor:publish
 ```
 
@@ -212,4 +214,6 @@ If the path of the page is changed to `industry/news/articles`, routes would cha
 
 You should now be able to see a list of all routes by doing:
 
-`php artisan route:list`
+```shell
+php artisan route:list
+```
