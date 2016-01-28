@@ -7,8 +7,18 @@ This is an experemental package. I am still not sure if this idea is brilliant o
 
 Add the package via composer:
 
-```php
-TBD
+Add to `composer.json`
+```
+"require": {
+    "unstoppablecarl/laravel-content-pages": "dev-master"
+},
+"repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/unstoppablecarl/laravel-content-pages"
+    }
+  ],
+  "minimum-stability": "dev"
 ```
 
 Add the following line to the `providers` key within your `config/app.php` file:
