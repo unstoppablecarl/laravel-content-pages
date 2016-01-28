@@ -33,15 +33,6 @@ Publish config
 php artisan vendor:publish
 ```
 
-Enable in  `config/pages.php`
-
-Enabling the package will bind additional routes. If this package is not configured correctly the router may not work. This config setting determines if page routes are bound or not.
-
-```php
-    // set to true
-    'enabled' => env('PAGES_ENABLED', true),
-```
-
 ## The Idea
 
 ### Purpose:
@@ -162,12 +153,12 @@ class Articles extends Controller {
 
 ### Make a PageRouteBinder
 
-`app\PageRouters\Articles.php`
+`app\PageRouteBinders\Articles.php`
 
 ```php
 <?php
 
-namespace App\PageRouters;
+namespace App\PageRouteBinders;
 
 use Illuminate\Routing\Router;
 use UnstoppableCarl\Pages\PageRouteBinder;
@@ -182,7 +173,6 @@ class Articles extends PageRouteBinder {
 }
 ```
 
-
 ### Configure page types in `config/pages.php`
 
 Add the following to the `page_types` key:
@@ -190,11 +180,19 @@ Add the following to the `page_types` key:
 ```php
 'page_types' => [
     'articles' => [
-        'page_router' => \App\PageRouters\Articles::class,
+        'page_router' => \App\PageRouteBinders\Articles::class,
     ]
 ],
 ```
 
+### Enable page routes in  `config/pages.php`
+
+**WARNING:** Enabling the package will bind additional routes. If this package is not configured correctly the router may not work. This config setting determines if page routes are bound or not.
+
+```php
+    // set to true
+    'enabled' => env('PAGES_ENABLED', true),
+```
 
 ### Result
 
@@ -203,9 +201,13 @@ Add the following to the `page_types` key:
 /news/articles/article-slug = 'Articles@single'
 ```
 
-If path of page is changed to `industry/news/articles`, routes would change to:
+If the path of the page is changed to `industry/news/articles`, routes would change to:
 
 ```
 /industry/news/articles = 'Articles@all'
 /industry/news/articles/article-slug = 'Articles@single'
 ```
+
+You should now be able to see a list of all routes by doing:
+
+`php artisan route:list`
