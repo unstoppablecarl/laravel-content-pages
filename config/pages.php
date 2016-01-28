@@ -68,10 +68,10 @@ return [
         /* example */
 
 //        'basic' => [
-//            'page_router' => \App\PageRouteBinders\Basic::class,
+//            'page_route_binder' => \App\PageRouteBinders\Basic::class,
 //        ],
 //        'articles' => [
-//            'page_router'      => \App\PageRouteBinders\Articles::class,
+//            'page_route_binder'      => \App\PageRouteBinders\Articles::class,
 //        ]
 
     ],

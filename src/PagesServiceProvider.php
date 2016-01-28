@@ -53,11 +53,11 @@ class PagesServiceProvider extends ServiceProvider {
 
         foreach($routeData as $page) {
 
-            $pageId          = Arr::get($page, 'id');
-            $path            = Arr::get($page, 'path');
-            $pageType        = Arr::get($page, 'page_type');
-            $PageRouterClass = $this->packageConfig('page_types.' . $pageType . '.page_router');
-            $pageRouter      = $this->getPageRouter($PageRouterClass, $pageId, $path);
+            $pageId               = Arr::get($page, 'id');
+            $path                 = Arr::get($page, 'path');
+            $pageType             = Arr::get($page, 'page_type');
+            $PageRouteBinderClass = $this->packageConfig('page_types.' . $pageType . '.page_route_binder');
+            $pageRouter           = $this->getPageRouteBinder($PageRouteBinderClass, $pageId, $path);
 
             if(!$pageRouter) {
                 continue;
@@ -73,8 +73,8 @@ class PagesServiceProvider extends ServiceProvider {
      * @return PageRepoContract
      * @throws PageRepositoryNotBoundException
      */
-    protected function getPageRepository(){
-        if(!$this->app->bound(PageRepoContract::class)){
+    protected function getPageRepository() {
+        if(!$this->app->bound(PageRepoContract::class)) {
             throw new PageRepositoryNotBoundException();
         }
 
@@ -88,7 +88,7 @@ class PagesServiceProvider extends ServiceProvider {
      * @param int    $pageId
      * @param string $path
      * @return bool|PageRouteBinderContract
-     * @throws PageRouterNotFoundException
+     * @throws PageRouteBinderNotFoundException
      */
     protected function getPageRouteBinder($PageRouteBinderClass, $pageId, $path) {
         $ignoreClassErrors = $this->packageConfig('ignore_page_router_class_errors');
@@ -115,9 +115,9 @@ class PagesServiceProvider extends ServiceProvider {
     /**
      * This function is used to enforce the PageRouteBinderContract
      * @param PageRouteBinderContract $pageRouter
-     * @param Router             $router
-     * @param int                $pageId
-     * @param string             $path
+     * @param Router                  $router
+     * @param int                     $pageId
+     * @param string                  $path
      */
     protected function bindPageRouteGroup(PageRouteBinderContract $pageRouter, Router $router, $pageId, $path) {
         $pageRouter->bindPageRouteGroup($router, $pageId, $path);
@@ -130,9 +130,10 @@ class PagesServiceProvider extends ServiceProvider {
      * @return mixed
      */
     protected function packageConfig($key = null, $default = null) {
-        if($key){
+        if($key) {
             $key = $this->configKey . '.' . $key;
         }
+
         return $this->app['config']->get($key, $default);
     }
 
