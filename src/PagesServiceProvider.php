@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use UnstoppableCarl\Pages\Contracts\PageRepository as PageRepoContract;
 use UnstoppableCarl\Pages\Contracts\PageRouteBinder as PageRouteBinderContract;
 use UnstoppableCarl\Pages\Exceptions\PageRepositoryNotBoundException;
-use UnstoppableCarl\Pages\Exceptions\PageRouterNotFoundException;
+use UnstoppableCarl\Pages\Exceptions\PageRouteBinderNotFoundException;
 
 class PagesServiceProvider extends ServiceProvider {
 
@@ -84,25 +84,25 @@ class PagesServiceProvider extends ServiceProvider {
     /**
      * Get the page router instance. If it is not found throw an exception,
      * or skip if config set to ignore.
-     * @param string $PageRouterClass
+     * @param string $PageRouteBinderClass
      * @param int    $pageId
      * @param string $path
      * @return bool|PageRouteBinderContract
      * @throws PageRouterNotFoundException
      */
-    protected function getPageRouter($PageRouterClass, $pageId, $path) {
+    protected function getPageRouteBinder($PageRouteBinderClass, $pageId, $path) {
         $ignoreClassErrors = $this->packageConfig('ignore_page_router_class_errors');
 
-        if(!class_exists($PageRouterClass) && !isset($this->app[$PageRouterClass])) {
+        if(!class_exists($PageRouteBinderClass) && !isset($this->app[$PageRouteBinderClass])) {
             if($ignoreClassErrors) {
                 return false;
             }
             else {
-                throw new PageRouterNotFoundException($PageRouterClass, $pageId, $path);
+                throw new PageRouteBinderNotFoundException($PageRouteBinderClass, $pageId, $path);
             }
         }
 
-        $pageRouter = $this->app->make($PageRouterClass);
+        $pageRouter = $this->app->make($PageRouteBinderClass);
 
         $implements = class_implements($pageRouter, PageRouteBinderContract::class);
         if(!$implements && $ignoreClassErrors) {
@@ -130,7 +130,10 @@ class PagesServiceProvider extends ServiceProvider {
      * @return mixed
      */
     protected function packageConfig($key = null, $default = null) {
-        return $this->app['config']->get($this->configKey . '.' . $key, $default);
+        if($key){
+            $key = $this->configKey . '.' . $key;
+        }
+        return $this->app['config']->get($key, $default);
     }
 
 }
