@@ -57,7 +57,7 @@ class PagesServiceProvider extends ServiceProvider {
             $path                 = Arr::get($page, 'path');
             $pageType             = Arr::get($page, 'page_type');
             $PageRouteBinderClass = $this->packageConfig('page_types.' . $pageType . '.page_route_binder');
-            $pageRouter           = $this->getPageRouteBinder($PageRouteBinderClass, $pageId, $path);
+            $pageRouter           = $this->getPageRouteBinder($PageRouteBinderClass, $pageType, $pageId, $path);
 
             if(!$pageRouter) {
                 continue;
@@ -90,7 +90,7 @@ class PagesServiceProvider extends ServiceProvider {
      * @return bool|PageRouteBinderContract
      * @throws PageRouteBinderNotFoundException
      */
-    protected function getPageRouteBinder($PageRouteBinderClass, $pageId, $path) {
+    protected function getPageRouteBinder($PageRouteBinderClass, $pageType, $pageId, $path) {
         $ignoreClassErrors = $this->packageConfig('ignore_page_router_class_errors');
 
         if(!class_exists($PageRouteBinderClass) && !isset($this->app[$PageRouteBinderClass])) {
@@ -98,7 +98,7 @@ class PagesServiceProvider extends ServiceProvider {
                 return false;
             }
             else {
-                throw new PageRouteBinderNotFoundException($PageRouteBinderClass, $pageId, $path);
+                throw new PageRouteBinderNotFoundException($PageRouteBinderClass, $pageType, $pageId, $path);
             }
         }
 
