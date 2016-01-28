@@ -1,24 +1,25 @@
 {
-    "name": "unstoppablecarl/laravel-content-pages",
-    "description": "",
-    "keywords": [],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Carl Olsen",
-            "email": "unstoppableCarl@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "laravel/framework": "5.2.*",
-        "illuminate/support": "5.0.x|5.1.x|5.2.x",
-        "illuminate/console": "5.0.x|5.1.x|5.2.x"
-    },
-
-    "autoload": {
-        "psr-4": {
-            "UnstoppableCarl\\Pages\\": "src"
-        }
+  "name": "unstoppablecarl/laravel-content-pages",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Carl Olsen",
+      "email": "unstoppableCarl@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "laravel/framework": "5.2.*",
+    "illuminate/support": "5.0.x|5.1.x|5.2.x",
+    "illuminate/console": "5.0.x|5.1.x|5.2.x"
+  },
+  "autoload": {
+    "psr-4": {
+      "UnstoppableCarl\\Pages\\": "src"
+    }
+  },
+  "minimum-stability": "beta"
 }
