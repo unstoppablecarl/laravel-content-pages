@@ -5,6 +5,7 @@ namespace UnstoppableCarl\Pages;
 use Illuminate\Config\Repository;
 use Illuminate\Routing\Router;
 use \UnstoppableCarl\Pages\Contracts\PageRouteBinder as PageRouteBinderContract;
+use UnstoppableCarl\Pages\Contracts\PageRouteNamer;
 use UnstoppableCarl\Pages\Middleware\PageInjector;
 
 /**
@@ -12,6 +13,11 @@ use UnstoppableCarl\Pages\Middleware\PageInjector;
  * bindPageRoutes and bindPageRouteGroup methods. This is the base class used To make PageRouteBinders for page types.
  */
 abstract class PageRouteBinder implements PageRouteBinderContract {
+
+    /**
+     * @var PageRouteNamer
+     */
+    protected $pageRouteNamer;
 
     /**
      * Key used to get page model from request via $request->get($key);
@@ -30,8 +36,9 @@ abstract class PageRouteBinder implements PageRouteBinderContract {
      * PageRouteBinder constructor.
      * @param Repository $config
      */
-    public function __construct(Repository $config) {
+    public function __construct(Repository $config, PageRouteNamer $pageRouteNamer) {
         $this->requestPageKey = $this->requestPageKey ?: $config->get('pages.page_model_request_key', 'page_model');
+        $this->pageRouteNamer = $pageRouteNamer;
     }
 
     /**
@@ -72,7 +79,7 @@ abstract class PageRouteBinder implements PageRouteBinderContract {
     protected function routeGroupAttributes($path, $pageId) {
 
         return [
-            'as'         => $this->routeGroupName($pageId),
+            'as'         => $this->pageRouteNamer->pageRouteGroupName($pageId),
             'prefix'     => $path,
             'namespace'  => $this->controllerNamespace,
             'middleware' => $this->routeGroupMiddleware($path, $pageId)
@@ -93,15 +100,5 @@ abstract class PageRouteBinder implements PageRouteBinderContract {
             $injector
         ];
     }
-
-    /**
-     * Get route group name from page id.
-     * @param int $pageId
-     * @return string
-     */
-    protected function routeGroupName($pageId) {
-        return 'page_id_' . $pageId;
-    }
-
 
 }

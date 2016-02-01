@@ -9,6 +9,7 @@ use UnstoppableCarl\Pages\Contracts\PageRepository as PageRepoContract;
 use UnstoppableCarl\Pages\Contracts\PageRouteBinder as PageRouteBinderContract;
 use UnstoppableCarl\Pages\Exceptions\PageRepositoryNotBoundException;
 use UnstoppableCarl\Pages\Exceptions\PageRouteBinderNotFoundException;
+use UnstoppableCarl\Pages\Contracts\PageRouteNamer as PageRouteNamerContract;
 
 class PagesServiceProvider extends ServiceProvider {
 
@@ -16,6 +17,10 @@ class PagesServiceProvider extends ServiceProvider {
 
     public function register() {
         $this->registerConfig();
+
+        if($this->packageConfig('include_helpers')){
+            require_once __DIR__ . '/../helpers/helpers.php';
+        }
     }
 
     /**
@@ -23,6 +28,8 @@ class PagesServiceProvider extends ServiceProvider {
      */
     public function boot(Router $router) {
 
+        $this->app->singleton(PageRouteNamerContract::class, PageRouteNamer::class);
+        
         if(
             $this->packageConfig('enabled') &&
             !$this->app->routesAreCached()
@@ -30,6 +37,7 @@ class PagesServiceProvider extends ServiceProvider {
 
             $this->bootRoutes($router);
         }
+
     }
 
     /**
