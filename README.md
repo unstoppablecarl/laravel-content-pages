@@ -1,5 +1,5 @@
 
-# Pages WARNING: Experemental Beta
+# Pages WARNING: Experimental Beta
 
 This is an experemental package. I am still not sure if this idea is brilliant or insane.
 
