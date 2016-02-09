@@ -57,7 +57,8 @@ class AdminPageController {
      */
     public function handle($request, Closure $next, $method = null) {
 
-        $page     = $request->route('page');
+        $page     = $request->route('content_page');
+
         $pageType = $page->page_type;
 
         $this->setPageTypeController($request, $pageType, $method);
