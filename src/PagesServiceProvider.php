@@ -21,6 +21,8 @@ class PagesServiceProvider extends ServiceProvider {
         if($this->packageConfig('include_helpers')){
             require_once __DIR__ . '/../helpers/helpers.php';
         }
+
+        $this->app->singleton(PageRouteNamerContract::class, PageRouteNamer::class);
     }
 
     /**
@@ -28,8 +30,6 @@ class PagesServiceProvider extends ServiceProvider {
      */
     public function boot(Router $router) {
 
-        $this->app->singleton(PageRouteNamerContract::class, PageRouteNamer::class);
-        
         if(
             $this->packageConfig('enabled') &&
             !$this->app->routesAreCached()
