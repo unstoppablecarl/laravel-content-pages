@@ -33,6 +33,12 @@ abstract class PageRouteBinder implements PageRouteBinderContract {
     protected $controllerNamespace = 'App\Http\Controllers';
 
     /**
+     * Default middleware applied to route groups
+     * @var array
+     */
+    protected $defaultRouteGroupMiddleware = ['web'];
+
+    /**
      * PageRouteBinder constructor.
      * @param Repository $config
      */
@@ -96,9 +102,7 @@ abstract class PageRouteBinder implements PageRouteBinderContract {
         $key      = $this->requestPageKey;
         $injector = PageInjector::class . ':' . $key . ',' . $pageId;
 
-        return [
-            $injector
-        ];
+        return array_merge($this->defaultRouteGroupMiddleware, [$injector]);
     }
 
 }
