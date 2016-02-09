@@ -29,6 +29,8 @@ class PageInjector {
         if(!$page) {
             abort(404);
         }
+
+        $request->route()->setParameter($key, $page);
         $request->merge([$key => $page]);
 
         return $next($request);
