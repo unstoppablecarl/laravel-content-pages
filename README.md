@@ -184,7 +184,7 @@ Add the following to the `page_types` key:
 ```php
 'page_types' => [
     'articles' => [
-        'page_router' => \App\PageRouteBinders\Articles::class,
+        'page_route_binder' => \App\PageRouteBinders\Articles::class,
     ]
 ],
 ```
