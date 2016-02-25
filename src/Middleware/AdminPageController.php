@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 /**
- * Sets the admin controller used to modify an existing page of a given page type.
+ * Sets the admin controller used to create or modify an existing page of a given page type.
  * Whatever controller this middleware is attached to will be replaced by the appropriate
- * admin page type controller based on the page type of the page being modified.
+ * admin page type controller based on the page type of the page being modified or the page type being created.
  */
 class AdminPageController {
 
@@ -52,14 +52,20 @@ class AdminPageController {
      * Handle an incoming request.
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure                 $next
+     * @param bool                      $creating if true, the route is creating a new page, the page type is retrieved from $request->route('page_type').
      * @param string                    $method method to be used on page controller (instead of using method currently set on route)
      * @return mixed
      */
-    public function handle($request, Closure $next, $method = null) {
+    public function handle($request, Closure $next, $creating = false, $method = null) {
 
-        $page     = $request->route('content_page');
-
-        $pageType = $page->page_type;
+        if($creating){
+            // get page type to be created
+            $pageType = $request->route('page_type');
+        } else {
+            // get Page model to be modified
+            $page     = $request->route('content_page');
+            $pageType = $page->page_type;
+        }
 
         $this->setPageTypeController($request, $pageType, $method);
 
