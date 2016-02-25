@@ -83,7 +83,7 @@ return [
 //            'page_route_binder' => \App\PageRouteBinders\Basic::class,
 //        ],
 //        'articles' => [
-//            'page_route_binder'      => \App\PageRouteBinders\Articles::class,
+//            'page_route_binder' => \App\PageRouteBinders\Articles::class,
 //        ]
 
     ],
