@@ -13,6 +13,11 @@ use UnstoppableCarl\Pages\Contracts\PageRouteNamer as PageRouteNamerContract;
 
 class PagesServiceProvider extends ServiceProvider {
 
+    /**
+     * Sets the name to be used for config
+     * default: config/pages.php
+     * @var string
+     */
     protected $configKey = 'pages';
 
     public function register() {
@@ -93,7 +98,8 @@ class PagesServiceProvider extends ServiceProvider {
      * Get the page router instance. If it is not found throw an exception,
      * or skip if config set to ignore.
      * @param string $PageRouteBinderClass
-     * @param int    $pageId
+     * @param string $pageType
+     * @param int $pageId
      * @param string $path
      * @return bool|PageRouteBinderContract
      * @throws PageRouteBinderNotFoundException

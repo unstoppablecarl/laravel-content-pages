@@ -1,6 +1,6 @@
 {
   "name": "unstoppablecarl/laravel-content-pages",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "keywords": [],
   "license": "MIT",
@@ -12,10 +12,10 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "illuminate/support": "5.2.*",
-    "illuminate/routing": "5.2.*",
-    "illuminate/http": "5.2.*",
-    "illuminate/config": "5.2.*"
+    "illuminate/support": "5.3.*",
+    "illuminate/routing": "5.3.*",
+    "illuminate/http": "5.3.*",
+    "illuminate/config": "5.3.*"
   },
   "autoload": {
     "psr-4": {

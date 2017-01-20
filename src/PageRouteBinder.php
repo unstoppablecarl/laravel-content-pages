@@ -4,7 +4,7 @@ namespace UnstoppableCarl\Pages;
 
 use Illuminate\Config\Repository;
 use Illuminate\Routing\Router;
-use \UnstoppableCarl\Pages\Contracts\PageRouteBinder as PageRouteBinderContract;
+use UnstoppableCarl\Pages\Contracts\PageRouteBinder as PageRouteBinderContract;
 use UnstoppableCarl\Pages\Contracts\PageRouteNamer;
 use UnstoppableCarl\Pages\Middleware\PageInjector;
 

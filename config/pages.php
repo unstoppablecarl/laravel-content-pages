@@ -21,9 +21,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | If true, when loading page router classes, any page router class
-    | not found or not implementing the correct interface will be when binding
-    | routes. The page with the broken class will then respond with a 404
-    | instead of an error.
+    | not found or not implementing the correct interface will be skipped when
+    | binding routes. The page with the broken class will then respond with a
+    | 404 instead of an error.
     | Usually set to true for production.
     |
     */
